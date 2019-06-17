@@ -12,20 +12,6 @@ public class CategoriaGasto {
 	private Long id;
 	private String descricao;
 	
-	
-	public CategoriaGasto() {
-		
-	}
-	
-	public CategoriaGasto(Long id, String descricao) {
-		this.id = id;
-		this.descricao = descricao;
-	}
-	
-	public CategoriaGasto(String descricao) {
-		this.descricao = descricao;
-	}
-
 
 	public Long getId() {
 		return id;

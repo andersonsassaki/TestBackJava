@@ -22,28 +22,6 @@ public class Gasto {
 	private Date data;
 	private int categoria;
 	
-	public Gasto() {
-	}
-	
-	
-	public Gasto(Long id, String descricao, double valor, Long codigoUsuario, Date data, int categoria) {
-		this.id = id;
-		this.descricao = descricao;
-		this.valor = valor;
-		this.codigoUsuario = codigoUsuario;
-		this.data = data;
-		this.categoria = categoria;
-	}
-	
-	
-	public Gasto(String descricao, double valor, Long codigoUsuario, Date data, int categoria) {
-		this.descricao = descricao;
-		this.valor = valor;
-		this.codigoUsuario = codigoUsuario;
-		this.data = data;
-		this.categoria = categoria;
-	}
-	
 	
 	public Long getId() {
 		return id;
