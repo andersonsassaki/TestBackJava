@@ -16,12 +16,14 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder autenticacao) throws Exception {
 
         autenticacao.inMemoryAuthentication()
+        		.withUser("adminTeste").password(encoder().encode("1234")).roles("ADMIN")
+        		.and()
                 .withUser("usuarioTeste").password(encoder().encode("1234")).roles("USER");
 
     }
 
 	@Bean
-	public PasswordEncoder  encoder() {
+	public PasswordEncoder encoder() {
 	    return new BCryptPasswordEncoder();
 	}
 	
@@ -32,10 +34,10 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
             .and()
             .authorizeRequests()
             .antMatchers(HttpMethod.GET, "/gasto/**").hasRole("USER")
-            .antMatchers(HttpMethod.POST, "/gasto").hasRole("USER")
+            .antMatchers(HttpMethod.POST, "/gasto/*").hasRole("ADMIN")
             .antMatchers(HttpMethod.PUT, "/gasto/**").hasRole("USER")
             .antMatchers(HttpMethod.GET, "/categoria/**").hasRole("USER")
-            .antMatchers(HttpMethod.POST, "/categoria").hasRole("USER")
+            .antMatchers(HttpMethod.POST, "/categoria/*").hasRole("USER")
             .and()
             .csrf().disable()
             .formLogin().disable();

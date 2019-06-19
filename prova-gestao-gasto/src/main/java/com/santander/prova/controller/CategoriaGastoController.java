@@ -31,19 +31,12 @@ public class CategoriaGastoController {
 	}
 	
 	
+	// Funcionalidade: Sugestão de categoria
 	@GetMapping
 	@RequestMapping("/listar/{searchCategoriaGasto}")
 	public ResponseEntity<List<CategoriaGasto>> listaCategoriaGasto(@PathVariable String searchCategoriaGasto) {
 		
-		List<CategoriaGasto> categoriaGastos = (List<CategoriaGasto>) repository.findByDescricao(searchCategoriaGasto);
-		return ResponseEntity.status(HttpStatus.OK).body(categoriaGastos);        
-	} 
-	
-	
-	@RequestMapping("/list")
-	public ResponseEntity<List<CategoriaGasto>> listaCategoriaGastoAll() {
-		
-		List<CategoriaGasto> categoriaGastos = (List<CategoriaGasto>) repository.findAll();
+		List<CategoriaGasto> categoriaGastos = (List<CategoriaGasto>) repository.findByDescricaoContainingIgnoreCase(searchCategoriaGasto);
 		return ResponseEntity.status(HttpStatus.OK).body(categoriaGastos);        
 	} 
 

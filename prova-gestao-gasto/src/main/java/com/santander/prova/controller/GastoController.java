@@ -5,7 +5,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,33 +18,37 @@ import org.springframework.web.bind.annotation.RestController;
 import com.santander.prova.model.Gasto;
 import com.santander.prova.repository.GastoRepository;
 
+
 @RestController
 @RequestMapping("/gasto")
 public class GastoController {
 	
-	private GastoRepository repository;
+	private GastoRepository repository;	
+	
 	
 	GastoController(GastoRepository gastoRepository) {
 		this.repository = gastoRepository;
 	}
+		
 	
-	
+	// Funcionalidade: Integração de gastos por cartão
 	@PostMapping("/adicionar")
-	//@RequestMapping("/adicionar")
 	public Gasto adicionaGasto(@RequestBody Gasto gasto){
 	    return repository.save(gasto);
 	}
 	
 	
+	// Funcionalidade: Listagem de gastos
 	@GetMapping
 	@RequestMapping("/listar/{codigoUsuario}")
 	public ResponseEntity<List<Gasto>> listaGastoUsuario(@PathVariable Long codigoUsuario) {
 		
-		List<Gasto> gastos = (List<Gasto>) repository.findByCodigoUsuario(codigoUsuario);
+		List<Gasto> gastos = (List<Gasto>) repository.findByCodigoUsuarioOrderByDataDesc(codigoUsuario);
 		return ResponseEntity.status(HttpStatus.OK).body(gastos);        
 	}
 	
 	
+	// Funcionalidade: Filtro de gastos
 	@GetMapping
 	@RequestMapping("/filtrar/{codigoUsuario}/{data}")
     public ResponseEntity<List<Gasto>> filtraGastoUsuario(@PathVariable Long codigoUsuario, @PathVariable String data) throws ParseException {
@@ -58,16 +61,31 @@ public class GastoController {
     }
 	
 	
+	// Funcionalidade: Categorização de gastos
 	@PutMapping
-	@RequestMapping("/alterar/{id}")
-    public ResponseEntity<Gasto> alteraGastoUsuario(@PathVariable("id") Long id, @RequestBody Gasto gasto) {
+	@RequestMapping("/alterar")
+    public ResponseEntity<Gasto> alteraGastoUsuario(@RequestBody Gasto gasto) {
 
-        return repository.findById(id).map(recordGasto -> {       	
-        	recordGasto.setCategoria(gasto.getCategoria());
-            
+        return repository.findById(gasto.getId()).map(recordGasto -> {       	
+        	recordGasto.setCategoriaGasto(gasto.getCategoriaGasto());
+           
         	Gasto updatedGasto = repository.save(recordGasto);
         	
         	return ResponseEntity.ok().body(updatedGasto);
         }).orElse(ResponseEntity.notFound().build());
     }
+	
+	
+	// Funcionalidade: Integração de gastos por cartão - Inclusão automática da categoria
+	@PostMapping("/adicionarCategoriaAuto")
+	public Gasto adicionaGastoAutomatico (@RequestBody Gasto gasto) { 
+	    		
+		Long codigoCategoria = repository.findByCodigoUsuario(gasto.getCodigoUsuario(), gasto.getCategoriaGasto().getDescricao());
+		
+		if(!codigoCategoria.toString().contentEquals("")) {
+			gasto.getCategoriaGasto().setId(codigoCategoria);
+		}
+		
+		return repository.save(gasto);
+	}
 }
