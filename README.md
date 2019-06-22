@@ -3,15 +3,24 @@
 * Incluir categorias de gastos 
 ********************************
 Método: POST
+
 Endpoint: http://localhost:8081/categoria/adicionar
+
 Usuário: usuarioTeste
+
 Senha: 1234
 
+
 {"descricao":"Alimentacao"}
+
 {"descricao":"Moradia"}
+
 {"descricao":"Vestuario"}
+
 {"descricao":"Educacao"}
+
 {"descricao":"Servicos"}
+
 {"descricao":"Comunicacao"}
 
 
