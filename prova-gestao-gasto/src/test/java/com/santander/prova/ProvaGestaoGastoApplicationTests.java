@@ -130,7 +130,7 @@ public class ProvaGestaoGastoApplicationTests {
     	
     	gasto.setCategoriaGasto(categoriaGasto);
     	 
-    	mockMvc.perform(post("/gasto/adicionar").with(httpBasic("xptoUsr","1234")).contentType(APPLICATION_JSON).content(toJson(gasto))).andExpect(status().isOk()).andReturn();
+    	mockMvc.perform(post("/gasto/adicionar").with(httpBasic("xptoUsr","1234")).contentType(APPLICATION_JSON).content(toJson(gasto))).andExpect(status().isUnauthorized()).andReturn();
     }
     
     
@@ -152,7 +152,7 @@ public class ProvaGestaoGastoApplicationTests {
     	
     	gasto.setCategoriaGasto(categoriaGasto);
     
-    	mockMvc.perform(post("/gasto/adicionar").with(httpBasic("adminTeste","123456")).contentType(APPLICATION_JSON).content(toJson(gasto))).andExpect(status().isOk()).andReturn();
+    	mockMvc.perform(post("/gasto/adicionar").with(httpBasic("adminTeste","123456")).contentType(APPLICATION_JSON).content(toJson(gasto))).andExpect(status().isUnauthorized()).andReturn();
 
     }
     
@@ -167,21 +167,21 @@ public class ProvaGestaoGastoApplicationTests {
     @Test
     public void testListaGastoUsuarioInvalido() throws Exception {
     	 		 
-    	mockMvc.perform(get("/gasto/listar/1").with(httpBasic("xptoUsr","1234"))).andExpect(status().isOk()).andReturn();
+    	mockMvc.perform(get("/gasto/listar/1").with(httpBasic("xptoUsr","1234"))).andExpect(status().isUnauthorized()).andReturn();
     }
     
     
     @Test
     public void testListaGastoSenhaUsuarioInvalida() throws Exception {
     	 		 
-    	mockMvc.perform(get("/gasto/listar/1").with(httpBasic("usuarioTeste","123456"))).andExpect(status().isOk()).andReturn();
+    	mockMvc.perform(get("/gasto/listar/1").with(httpBasic("usuarioTeste","123456"))).andExpect(status().isUnauthorized()).andReturn();
     }
     
     
     @Test
     public void testListaGastoSemParametroUsuario() throws Exception {
     	 		 
-    	mockMvc.perform(get("/gasto/listar").with(httpBasic("usuarioTeste","1234"))).andExpect(status().isOk()).andReturn();
+    	mockMvc.perform(get("/gasto/listar").with(httpBasic("usuarioTeste","1234"))).andExpect(status().isNotFound()).andReturn();
     }
 	
     
@@ -195,21 +195,21 @@ public class ProvaGestaoGastoApplicationTests {
     @Test
     public void testFiltraGastoUsuarioInvalido() throws Exception {
     	 		 
-    	mockMvc.perform(get("/gasto/filtrar/1/2019-06-10").with(httpBasic("xptoUsr","1234"))).andExpect(status().isOk()).andReturn();
+    	mockMvc.perform(get("/gasto/filtrar/1/2019-06-10").with(httpBasic("xptoUsr","1234"))).andExpect(status().isUnauthorized()).andReturn();
     }
     
     
     @Test
     public void testFiltraGastoSenhaUsuarioInvalida() throws Exception {
     	 		 
-    	mockMvc.perform(get("/gasto/filtrar/1/2019-06-10").with(httpBasic("usuarioTeste","123456"))).andExpect(status().isOk()).andReturn();
+    	mockMvc.perform(get("/gasto/filtrar/1/2019-06-10").with(httpBasic("usuarioTeste","123456"))).andExpect(status().isUnauthorized()).andReturn();
     }
     
     
     @Test
     public void testFiltraGastoSemParametroData() throws Exception {
     	 		 
-    	mockMvc.perform(get("/gasto/filtrar/1").with(httpBasic("usuarioTeste","1234"))).andExpect(status().isOk()).andReturn();
+    	mockMvc.perform(get("/gasto/filtrar/1").with(httpBasic("usuarioTeste","1234"))).andExpect(status().isNotFound()).andReturn();
     }
     
     
@@ -343,7 +343,7 @@ public class ProvaGestaoGastoApplicationTests {
     	
     	gasto.setCategoriaGasto(categoriaGasto);
     	 
-    	mockMvc.perform(put("/gasto/alterar").with(httpBasic("xptoUsr","1234")).contentType(APPLICATION_JSON).content(toJson(gasto))).andExpect(status().isOk()).andReturn();
+    	mockMvc.perform(put("/gasto/alterar").with(httpBasic("xptoUsr","1234")).contentType(APPLICATION_JSON).content(toJson(gasto))).andExpect(status().isUnauthorized()).andReturn();
     }
     
     
@@ -409,7 +409,7 @@ public class ProvaGestaoGastoApplicationTests {
     	
     	gasto.setCategoriaGasto(categoriaGasto);
     
-    	mockMvc.perform(put("/gasto/alterar").with(httpBasic("usuarioTeste","123456")).contentType(APPLICATION_JSON).content(toJson(gasto))).andExpect(status().isOk()).andReturn();
+    	mockMvc.perform(put("/gasto/alterar").with(httpBasic("usuarioTeste","123456")).contentType(APPLICATION_JSON).content(toJson(gasto))).andExpect(status().isUnauthorized()).andReturn();
 
     }
     
@@ -435,7 +435,7 @@ public class ProvaGestaoGastoApplicationTests {
     	
     	gasto.setCategoriaGasto(categoriaGasto);
     
-    	mockMvc.perform(post("/gasto/alterar").with(httpBasic("usuarioTeste","1234")).contentType(APPLICATION_JSON).content(toJson(gasto))).andExpect(status().isOk()).andReturn();
+    	mockMvc.perform(post("/gasto/alterar").with(httpBasic("usuarioTeste","1234")).contentType(APPLICATION_JSON).content(toJson(gasto))).andExpect(status().isForbidden()).andReturn();
 
     }
     
@@ -450,21 +450,21 @@ public class ProvaGestaoGastoApplicationTests {
     @Test
     public void testSugestaoCategoriaUsuarioInvalido() throws Exception {
     	 		 
-    	mockMvc.perform(get("/categoria/listar/cao").with(httpBasic("xptoUsr","1234"))).andExpect(status().isOk()).andReturn();
+    	mockMvc.perform(get("/categoria/listar/cao").with(httpBasic("xptoUsr","1234"))).andExpect(status().isUnauthorized()).andReturn();
     }
     
     
     @Test
     public void testSugestaoCategoriaSenhaUsuarioInvalida() throws Exception {
     	 		 
-    	mockMvc.perform(get("/categoria/listar/cao").with(httpBasic("usuarioTeste","123456"))).andExpect(status().isOk()).andReturn();
+    	mockMvc.perform(get("/categoria/listar/cao").with(httpBasic("usuarioTeste","123456"))).andExpect(status().isUnauthorized()).andReturn();
     }
     
     
     @Test
     public void testSugestaoCategoriaSemParametroSearch() throws Exception {
     	 		 
-    	mockMvc.perform(get("/categoria/listar").with(httpBasic("usuarioTeste","1234"))).andExpect(status().isOk()).andReturn();
+    	mockMvc.perform(get("/categoria/listar").with(httpBasic("usuarioTeste","1234"))).andExpect(status().isNotFound()).andReturn();
     }
     
     
@@ -570,7 +570,7 @@ public class ProvaGestaoGastoApplicationTests {
     	
     	gasto.setCategoriaGasto(categoriaGasto);
     
-    	mockMvc.perform(post("/gasto/adicionarCategoriaAuto").with(httpBasic("xptoUsr","1234")).contentType(APPLICATION_JSON).content(toJson(gasto))).andExpect(status().isOk()).andReturn();
+    	mockMvc.perform(post("/gasto/adicionarCategoriaAuto").with(httpBasic("xptoUsr","1234")).contentType(APPLICATION_JSON).content(toJson(gasto))).andExpect(status().isUnauthorized()).andReturn();
     		 	
     }
     
@@ -610,7 +610,7 @@ public class ProvaGestaoGastoApplicationTests {
     	
     	gasto.setCategoriaGasto(categoriaGasto);
     
-    	mockMvc.perform(post("/gasto/adicionarCategoriaAuto").with(httpBasic("adminTeste","123456")).contentType(APPLICATION_JSON).content(toJson(gasto))).andExpect(status().isOk()).andReturn();
+    	mockMvc.perform(post("/gasto/adicionarCategoriaAuto").with(httpBasic("adminTeste","123456")).contentType(APPLICATION_JSON).content(toJson(gasto))).andExpect(status().isUnauthorized()).andReturn();
 
     }
 
